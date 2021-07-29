@@ -78,16 +78,18 @@ transportAndTakeoutScatterPlot.set_xlabel('fortnight')
 transportAndTakeoutScatterPlot.set_title('Transport vs take_out')
 transportAndTakeoutScatterPlot.legend()
 
+pearson=pearsonr(transport, takeout)
+
+explanation_text="""
+I expected zero correlation between groceries and transport however
+According to pearson's correlation:
+There is a weak negative correlation between groceries and takeout of:
+{}""".format(pearson)
+
 scatterPlot1Explanation = figure.add_subplot(gs[1, 1])
 scatterPlot1Explanation.axes.xaxis.set_visible(False)
 scatterPlot1Explanation.axes.yaxis.set_visible(False)
-scatterPlot1Explanation.text(0.1, 0.35,
-         'I expected zero correlation between groceries and transport however\n'
-         'According to pearsons correlation:\n'
-         'There is a weak negative correlation between groceries and takeout of:\n'
-         '-0.17717388056215955, 0.40754712482189326',
-                             fontsize=8,
-                             )
+scatterPlot1Explanation.text(0.1, 0.35,explanation_text,fontsize=8)
 
 groceriesAndTakeoutScatterPlot = figure.add_subplot(gs[2, 0])
 groceriesAndTakeoutScatterPlot.scatter(fortnights, groceries, color='red', marker='o', label='transport')
@@ -100,17 +102,20 @@ groceriesAndTakeoutScatterPlot.legend()
 plt.xticks(np.arange(1, len(fortnights) + 1, 1), color='green')
 plt.yticks(np.arange(0, max(takeout), 20), color='green')
 
+
+pearson2=pearsonr(groceries, takeout)
+
+scatter_explanation_text="""
+I expected a stronger negative correlation of -0.8 or 0.9 because;
+I thought the more groceries we ordered the less takeout we would order
+According to pearson's correlation:
+There is a strong  negative correlation between groceries and takeout of:
+{}""".format(pearson2)
+
 scatterPlot2Explanation = figure.add_subplot(gs[2, 1])
 scatterPlot2Explanation.axes.xaxis.set_visible(False)
 scatterPlot2Explanation.axes.yaxis.set_visible(False)
-scatterPlot2Explanation.text(0.1, 0.35,
-         'I expected a stronger negative correlation of -0.8 or 0.9 because;\n'
-         'I thought the more groceries we orded the less takeout we would order\n'
-         'According to pearsons correlation:\n'
-         'There is a strong  negative correlation between groceries and takeout of:\n '
-         '-0.5085343629640278, 0.011165467950515167',
-                             fontsize=8,
-                             )
+scatterPlot2Explanation.text(0.1, 0.35,scatter_explanation_text,fontsize=8)
 
 figure2= plt.figure(num=2)
 figure2.suptitle('An analysis of our fortnight Budget', fontsize=14, fontweight='bold')
@@ -125,10 +130,5 @@ myLabels=["groceries","takeout","transport"]
 myexplode = [0, 0.2, 0]
 fortnightPieChart.pie(fortnightTotalCost,labels=myLabels,startangle=90,explode=myexplode,shadow=True)
 fortnightPieChart.legend(title="Total fortnight cost")
-
-
-
-print(pearsonr(transport, takeout))
-print(pearsonr(groceries, takeout))
 
 plt.show()
